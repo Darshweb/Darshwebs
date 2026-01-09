@@ -5,11 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Darsh Web Developers</title>
     <style>
-        /* --- CSS STYLING --- */
+        /* --- CSS STYLING (The Look) --- */
         :root {
-            --primary: #00e5ff; 
-            --secondary: #2979ff; 
-            --bg-dark: #0a0e17; 
+            --primary: #00e5ff; /* Cyan */
+            --secondary: #2979ff; /* Blue */
+            --bg-dark: #0a0e17; /* Dark BG */
             --glass: rgba(255, 255, 255, 0.05);
             --text-color: #ffffff;
         }
@@ -25,6 +25,7 @@
             flex-direction: column;
         }
 
+        /* Helpers */
         .hidden { display: none !important; }
         
         .btn {
@@ -48,6 +49,7 @@
         }
         .btn-outline:hover { background: rgba(0, 229, 255, 0.1); }
 
+        /* Navigation / Header */
         header {
             display: flex;
             align-items: center;
@@ -60,8 +62,17 @@
             z-index: 100;
         }
         
-        .logo-container { display: flex; align-items: center; gap: 15px; }
-        .logo-img { height: 50px; border-radius: 8px; }
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo-img {
+            height: 50px;
+            border-radius: 8px; 
+        }
+
         .brand-name {
             font-size: 1.5rem;
             font-weight: 800;
@@ -75,6 +86,7 @@
         .nav-right { margin-left: auto; }
         .nav-right button { width: auto; } 
 
+        /* --- AUTH SECTION (Centered) --- */
         #auth-section {
             display: flex;
             justify-content: center;
@@ -97,6 +109,16 @@
             position: relative;
         }
 
+        .auth-container::before {
+            content: '';
+            position: absolute;
+            top: -2px; left: -2px; right: -2px; bottom: -2px;
+            background: linear-gradient(45deg, var(--secondary), var(--primary), transparent);
+            z-index: -1;
+            border-radius: 20px;
+            opacity: 0.5;
+        }
+
         .auth-container h2 { margin-bottom: 25px; color: var(--primary); text-transform: uppercase; letter-spacing: 2px; }
         
         input {
@@ -109,11 +131,27 @@
             border-radius: 5px;
             color: white;
             outline: none;
+            transition: 0.3s;
+        }
+        input:focus { border-color: var(--primary); box-shadow: 0 0 8px rgba(0, 229, 255, 0.3); }
+
+        .switch-link {
+            margin-top: 20px;
+            font-size: 0.9rem;
+            color: #aaa;
+            cursor: pointer;
+        }
+        .switch-link:hover { color: var(--primary); text-decoration: underline; }
+
+        /* Plan Selection Section */
+        .plans-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            padding: 40px;
         }
 
-        .switch-link { margin-top: 20px; font-size: 0.9rem; color: #aaa; cursor: pointer; }
-
-        .plans-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; padding: 40px; }
         .plan-card {
             background: var(--glass);
             border: 1px solid var(--primary);
@@ -123,16 +161,49 @@
             display: flex;
             flex-direction: column;
             transition: 0.3s;
+            position: relative;
         }
+        .plan-card:hover { transform: translateY(-5px); background: rgba(0, 229, 255, 0.1); box-shadow: 0 0 20px rgba(0, 229, 255, 0.2); }
+        
         .plan-title { font-size: 1.5rem; color: var(--primary); margin-bottom: 5px; text-align: center; font-weight: bold;}
         .plan-price { font-size: 2rem; font-weight: bold; margin-bottom: 15px; text-align: center; }
-        .plan-features { list-style: none; padding: 0; margin-bottom: 20px; flex-grow: 1; font-size: 0.9rem; line-height: 1.6; }
-        .plan-features li { border-bottom: 1px solid rgba(255,255,255,0.1); padding: 5px 0; }
+        
+        .plan-features {
+            text-align: left;
+            padding: 0;
+            list-style: none;
+            margin-bottom: 20px;
+            flex-grow: 1; /* Pushes button to bottom */
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+        .plan-features li {
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding: 5px 0;
+        }
 
-        .admin-panel { padding: 40px; max-width: 800px; margin: 0 auto; }
-        table { width: 100%; border-collapse: collapse; background: var(--glass); margin-top: 20px; }
-        th, td { padding: 15px; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        /* Admin Dashboard */
+        .admin-panel {
+            padding: 40px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--glass);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
         th { background: rgba(41, 121, 255, 0.3); color: var(--primary); }
+        tr:hover { background: rgba(255,255,255,0.05); }
+
     </style>
 </head>
 <body>
@@ -159,6 +230,7 @@
 
         <div id="register-form" class="auth-container hidden">
             <h2>Join Us</h2>
+            <p style="font-size: 0.8rem; color: #ccc; margin-bottom: 20px;">Bring your digital dreams to life</p>
             <input type="email" id="reg-email" placeholder="Enter Gmail Address">
             <input type="password" id="reg-pass" placeholder="Create Password">
             <button class="btn" onclick="handleRegister()">Sign Up</button>
@@ -169,73 +241,113 @@
     <div id="plans-section" class="hidden">
         <div style="text-align: center; margin-top: 30px;">
             <h1>Select Your Package</h1>
+            <p>Darsh Web Developers - Premium Services</p>
         </div>
+        
         <div class="plans-grid">
+            
             <div class="plan-card">
                 <div class="plan-title">Free Trial</div>
                 <div class="plan-price">₹0</div>
                 <ul class="plan-features">
                     <li>SSL Certificate ✅</li>
                     <li>5 days Hosting ✅</li>
+                    <li>GitHub Domain ✅</li>
+                    <li>Functional ✅</li>
                     <li>Website in 2 days ✅</li>
                 </ul>
                 <button class="btn" onclick="selectPlan('Free Trial (₹0)')">Select Trial</button>
             </div>
+
             <div class="plan-card">
                 <div class="plan-title">Basic</div>
                 <div class="plan-price">₹30</div>
                 <ul class="plan-features">
+                    <li>SSL Certificate ✅</li>
                     <li>15 days Hosting ✅</li>
+                    <li>GitHub Domain ✅</li>
+                    <li>Functional ✅</li>
                     <li>Maintenance ✅</li>
+                    <li>Free Bug fixes ✅</li>
+                    <li>Updates ✅</li>
                     <li>Website in 2 days ✅</li>
                 </ul>
                 <button class="btn" onclick="selectPlan('Basic (₹30)')">Select Basic</button>
             </div>
-            <div class="plan-card">
+
+            <div class="plan-card" style="border-color: var(--secondary);">
                 <div class="plan-title">Advanced</div>
                 <div class="plan-price">₹100</div>
                 <ul class="plan-features">
+                    <li>SSL Certificate ✅</li>
                     <li>1 Month Hosting ✅</li>
+                    <li>GitHub Domain ✅</li>
+                    <li>Functional ✅</li>
+                    <li>Maintenance ✅</li>
+                    <li>Free Bug fixes ✅</li>
                     <li>Updates ✅</li>
                     <li>Website in 2 days ✅</li>
                 </ul>
                 <button class="btn" onclick="selectPlan('Advanced (₹100)')">Select Advanced</button>
             </div>
-            <div class="plan-card">
-                <div class="plan-title">Ultra</div>
+
+            <div class="plan-card" style="box-shadow: 0 0 10px rgba(0, 229, 255, 0.3);">
+                <div class="plan-title" style="text-shadow: 0 0 10px var(--primary);">Ultra</div>
                 <div class="plan-price">₹1200</div>
                 <ul class="plan-features">
+                    <li>SSL Certificate ✅</li>
                     <li>1 Month Hosting ✅</li>
-                    <li>Customer Support ✅</li>
+                    <li>GitHub Domain ✅</li>
+                    <li>Functional ✅</li>
+                    <li>Maintenance ✅</li>
+                    <li>Free Bug fixes ✅</li>
+                    <li>Updates ✅</li>
                     <li>Website in 2 days ✅</li>
+                    <li style="color: var(--primary); font-weight:bold;">Customer Support ✅</li>
                 </ul>
                 <button class="btn" onclick="selectPlan('Ultra (₹1200)')">Select Ultra</button>
             </div>
+
         </div>
     </div>
 
     <div id="main-website" class="hidden" style="text-align: center; padding: 50px;">
+        <img src="logo.jpg" style="width: 100px; margin-bottom: 20px; border-radius: 10px;">
         <h1 style="color: var(--primary); font-size: 3rem;">Darsh Web Developers</h1>
-        <div style="margin-top: 40px; padding: 30px; border: 1px solid var(--secondary); display: inline-block; border-radius: 10px; background: rgba(0,0,0,0.3);">
+        <p style="font-size: 1.2rem;">Bringing Your Digital Dreams to Life.</p>
+        
+        <div style="margin-top: 40px; padding: 30px; border: 1px solid var(--secondary); display: inline-block; border-radius: 10px; background: rgba(0,0,0,0.3); max-width: 500px;">
             <h3>Request Received</h3>
-            <p>We will contact you under 24 hours.: <br><strong id="user-current-plan" style="color: var(--primary); font-size: 1.5em; display:block; margin-top:10px;">Loading...</strong></p>
+            <p>We have received your request for. We will contact you under 24 hours.: <br><strong id="user-current-plan" style="color: var(--primary); font-size: 1.5em; display:block; margin-top:10px;">Loading...</strong></p>
+            <hr style="border-color: rgba(255,255,255,0.1); margin: 20px 0;">
+            
             <button class="btn btn-outline" onclick="changePlan()">Choose Another Plan</button>
         </div>
     </div>
 
     <div id="admin-dashboard" class="hidden admin-panel">
         <h1 style="color: var(--primary)">Admin Dashboard</h1>
+        <p>Real-time Customer Plan Requests</p>
+        
         <table>
-            <thead><tr><th>Customer Gmail</th><th>Selected Plan</th></tr></thead>
-            <tbody id="customer-table-body"></tbody>
+            <thead>
+                <tr>
+                    <th>Customer Gmail</th>
+                    <th>Selected Plan</th>
+                </tr>
+            </thead>
+            <tbody id="customer-table-body">
+                </tbody>
         </table>
     </div>
 
     <script>
+        /* --- JAVASCRIPT LOGIC --- */
+
         const ADMIN_EMAIL = "koraleashok@gmail.com";
         const ADMIN_PASS = "Darsh@7827";
-        const MY_WHATSAPP = "91XXXXXXXXXX"; // <--- CHANGE TO YOUR NUMBER
 
+        // DOM Elements
         const authSection = document.getElementById('auth-section');
         const loginForm = document.getElementById('login-form');
         const regForm = document.getElementById('register-form');
@@ -246,51 +358,96 @@
         
         let currentUserEmail = null;
 
+        // 1. Initial Load
         window.onload = function() {
             const savedUser = sessionStorage.getItem('dwd_current_user');
             if(savedUser) {
                 currentUserEmail = savedUser;
-                if(currentUserEmail === ADMIN_EMAIL) showAdminPanel();
-                else {
+                if(currentUserEmail === ADMIN_EMAIL) {
+                    showAdminPanel();
+                } else {
                     const user = getUserData(currentUserEmail);
-                    user.plan ? showMainWebsite(user.plan) : showPlans();
+                    // If user has a plan, show main website, otherwise show plans
+                    if(user.plan) {
+                        showMainWebsite(user.plan);
+                    } else {
+                        showPlans();
+                    }
                 }
             }
         };
 
+        // 2. Toggle Login/Register
         function toggleAuth(view) {
-            loginForm.classList.toggle('hidden', view === 'register');
-            regForm.classList.toggle('hidden', view === 'login');
+            if (view === 'register') {
+                loginForm.classList.add('hidden');
+                regForm.classList.remove('hidden');
+            } else {
+                regForm.classList.add('hidden');
+                loginForm.classList.remove('hidden');
+            }
         }
 
+        // 3. Register
         function handleRegister() {
             const email = document.getElementById('reg-email').value;
             const pass = document.getElementById('reg-pass').value;
-            if (!email.includes('@gmail.com')) return alert("Use Gmail.");
+
+            if (!email.includes('@gmail.com')) {
+                alert("Please enter a valid Gmail address.");
+                return;
+            }
+            if (pass.length < 4) {
+                alert("Password is too short.");
+                return;
+            }
+
             let users = JSON.parse(localStorage.getItem('dwd_users')) || [];
-            if (users.find(u => u.email === email)) return alert("Exists.");
-            users.push({ email, password: pass, plan: null });
+            if (users.find(u => u.email === email)) {
+                alert("Account already exists. Please Log In.");
+                toggleAuth('login');
+                return;
+            }
+
+            users.push({ email: email, password: pass, plan: null });
             localStorage.setItem('dwd_users', JSON.stringify(users));
-            alert("Success! Log in now."); toggleAuth('login');
+            
+            alert("Account created! Please log in.");
+            toggleAuth('login');
         }
 
+        // 4. Login
         function handleLogin() {
             const email = document.getElementById('login-email').value;
             const pass = document.getElementById('login-pass').value;
+
+            // Admin Check
             if (email === ADMIN_EMAIL && pass === ADMIN_PASS) {
                 sessionStorage.setItem('dwd_current_user', email);
-                currentUserEmail = email; showAdminPanel(); return;
+                currentUserEmail = email;
+                showAdminPanel();
+                return;
             }
+
+            // Customer Check
             let users = JSON.parse(localStorage.getItem('dwd_users')) || [];
             const user = users.find(u => u.email === email && u.password === pass);
+
             if (user) {
                 sessionStorage.setItem('dwd_current_user', email);
                 currentUserEmail = email;
-                user.plan ? showMainWebsite(user.plan) : showPlans();
-            } else alert("Wrong credentials.");
+                
+                if (user.plan) {
+                    showMainWebsite(user.plan);
+                } else {
+                    showPlans();
+                }
+            } else {
+                alert("Invalid email or password.");
+            }
         }
 
-        /* --- THE FIXED FUNCTION --- */
+        // 5. Select Plan
         function selectPlan(planName) {
             let users = JSON.parse(localStorage.getItem('dwd_users')) || [];
             const index = users.findIndex(u => u.email === currentUserEmail);
@@ -298,57 +455,84 @@
             if (index !== -1) {
                 users[index].plan = planName;
                 localStorage.setItem('dwd_users', JSON.stringify(users));
-                
-                // Construct WhatsApp Link
-                const msg = `New Order from Darsh Web Devs! %0AClient: ${currentUserEmail}%0APlan: ${planName}`;
-                const waUrl = `https://wa.me/${MY_WHATSAPP}?text=${msg}`;
-                
-                alert("Redirecting to WhatsApp to confirm your order...");
-                window.open(waUrl, '_blank'); // Opens your WhatsApp with the order details
-                
+                // Show success and move to dashboard
                 showMainWebsite(planName);
             }
         }
 
+        // 6. Go Back / Change Plan Function
         function changePlan() {
             mainWebsite.classList.add('hidden');
             plansSection.classList.remove('hidden');
+            document.body.style.justifyContent = 'flex-start';
         }
 
+        // 7. View: Admin Panel
         function showAdminPanel() {
             authSection.classList.add('hidden');
+            plansSection.classList.add('hidden');
+            mainWebsite.classList.add('hidden');
             header.classList.remove('hidden');
             adminDashboard.classList.remove('hidden');
-            document.getElementById('user-display').innerText = "Admin";
+            
+            document.body.style.justifyContent = 'flex-start';
+            document.getElementById('user-display').innerText = "Administrator";
+            
+            // Build Table
             const tbody = document.getElementById('customer-table-body');
             tbody.innerHTML = ''; 
+            
             let users = JSON.parse(localStorage.getItem('dwd_users')) || [];
-            users.filter(u => u.email !== ADMIN_EMAIL).forEach(u => {
-                tbody.innerHTML += `<tr><td>${u.email}</td><td>${u.plan || 'None'}</td></tr>`;
-            });
+            
+            // --- FIX IS HERE: REPLACED FILTER WITH DIRECT ASSIGNMENT ---
+            // Old Code: const customers = users.filter(u => u.email !== ADMIN_EMAIL);
+            // New Code: We want to see EVERYONE in the dashboard, including test admins
+            const customers = users; 
+
+            if(customers.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="2" style="text-align:center; padding: 20px;">No customers yet.</td></tr>';
+            } else {
+                customers.forEach(user => {
+                    let row = `<tr>
+                        <td>${user.email}</td>
+                        <td style="color: var(--primary); font-weight: bold;">${user.plan ? user.plan : 'No Plan Selected'}</td>
+                    </tr>`;
+                    tbody.innerHTML += row;
+                });
+            }
         }
 
+        // 8. View: Plan Selection
         function showPlans() {
             authSection.classList.add('hidden');
             header.classList.remove('hidden');
             plansSection.classList.remove('hidden');
+            document.body.style.justifyContent = 'flex-start'; 
             document.getElementById('user-display').innerText = currentUserEmail;
         }
 
+        // 9. View: Main Website
         function showMainWebsite(planName) {
             authSection.classList.add('hidden');
             plansSection.classList.add('hidden');
             header.classList.remove('hidden');
             mainWebsite.classList.remove('hidden');
+            document.body.style.justifyContent = 'flex-start'; 
             document.getElementById('user-display').innerText = currentUserEmail;
             document.getElementById('user-current-plan').innerText = planName;
         }
 
-        function logout() { sessionStorage.removeItem('dwd_current_user'); location.reload(); }
+        // 10. Logout
+        function logout() {
+            sessionStorage.removeItem('dwd_current_user');
+            location.reload();
+        }
+
         function getUserData(email) {
             let users = JSON.parse(localStorage.getItem('dwd_users')) || [];
             return users.find(u => u.email === email) || {};
         }
+
     </script>
 </body>
 </html>
