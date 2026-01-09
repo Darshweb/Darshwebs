@@ -318,7 +318,7 @@
         
         <div style="margin-top: 40px; padding: 30px; border: 1px solid var(--secondary); display: inline-block; border-radius: 10px; background: rgba(0,0,0,0.3); max-width: 500px;">
             <h3>Request Received</h3>
-            <p>We have received your request for. We will contact you under 24 hours.: <br><strong id="user-current-plan" style="color: var(--primary); font-size: 1.5em; display:block; margin-top:10px;">Loading...</strong></p>
+            <p>Please contact on webdevelopersdarsh@gmail.com and type hi and tell which plan you have selected.: <br><strong id="user-current-plan" style="color: var(--primary); font-size: 1.5em; display:block; margin-top:10px;">Loading...</strong></p>
             <hr style="border-color: rgba(255,255,255,0.1); margin: 20px 0;">
             
             <button class="btn btn-outline" onclick="changePlan()">Choose Another Plan</button>
@@ -483,11 +483,7 @@
             tbody.innerHTML = ''; 
             
             let users = JSON.parse(localStorage.getItem('dwd_users')) || [];
-            
-            // --- FIX IS HERE: REPLACED FILTER WITH DIRECT ASSIGNMENT ---
-            // Old Code: const customers = users.filter(u => u.email !== ADMIN_EMAIL);
-            // New Code: We want to see EVERYONE in the dashboard, including test admins
-            const customers = users; 
+            const customers = users.filter(u => u.email !== ADMIN_EMAIL);
 
             if(customers.length === 0) {
                 tbody.innerHTML = '<tr><td colspan="2" style="text-align:center; padding: 20px;">No customers yet.</td></tr>';
