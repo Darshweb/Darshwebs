@@ -143,6 +143,18 @@
         }
         .switch-link:hover { color: var(--primary); text-decoration: underline; }
 
+        .agree-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 15px;
+            font-size: 0.85rem;
+            color: #ccc;
+            text-align: left;
+        }
+        .agree-container input { width: 18px; height: 18px; margin: 0; cursor: pointer; }
+        .agree-link { color: var(--primary); text-decoration: underline; cursor: pointer; font-weight: bold; }
+
         /* Plan Selection Section */
         .plans-grid {
             display: flex;
@@ -173,7 +185,7 @@
             padding: 0;
             list-style: none;
             margin-bottom: 20px;
-            flex-grow: 1; /* Pushes button to bottom */
+            flex-grow: 1; 
             font-size: 0.9rem;
             line-height: 1.6;
         }
@@ -204,6 +216,24 @@
         th { background: rgba(41, 121, 255, 0.3); color: var(--primary); }
         tr:hover { background: rgba(255,255,255,0.05); }
 
+        /* --- LARGE LEGAL CONTENT STYLING --- */
+        .legal-content {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 50px;
+            background: rgba(0, 0, 0, 0.8);
+            border: 2px solid var(--primary);
+            border-radius: 20px;
+            line-height: 1.8;
+            text-align: left;
+            font-size: 1.15rem; /* Bigger Text */
+        }
+        .legal-content h1 { color: var(--primary); font-size: 2.5rem; border-bottom: 2px solid var(--secondary); padding-bottom: 10px; }
+        .legal-content h3 { color: var(--primary); font-size: 1.6rem; margin-top: 35px; margin-bottom: 10px; text-transform: uppercase; }
+        .legal-content p, .legal-content li { color: #e0e0e0; margin-bottom: 15px; }
+        .legal-content ul { padding-left: 20px; }
+        .legal-content strong { color: var(--primary); }
+
     </style>
 </head>
 <body>
@@ -233,6 +263,12 @@
             <p style="font-size: 0.8rem; color: #ccc; margin-bottom: 20px;">Bring your digital dreams to life</p>
             <input type="email" id="reg-email" placeholder="Enter Gmail Address">
             <input type="password" id="reg-pass" placeholder="Create Password">
+            
+            <div class="agree-container">
+                <input type="checkbox" id="agree-check">
+                <label for="agree-check">I Agree to the <span class="agree-link" onclick="showPolicy()">Terms & Policy</span></label>
+            </div>
+
             <button class="btn" onclick="handleRegister()">Sign Up</button>
             <div class="switch-link" onclick="toggleAuth('login')">Have an account? Log In</div>
         </div>
@@ -338,18 +374,68 @@
                     <th>Selected Plan</th>
                 </tr>
             </thead>
-            <tbody id="customer-table-body">
-                </tbody>
+            <tbody id="customer-table-body"></tbody>
         </table>
     </div>
 
+    <div id="policy-section" class="hidden legal-content">
+        <h1>Terms of Service</h1>
+        
+        <h3>1. Acceptance of Terms</h3>
+        <p>By accessing <strong>Darsh Web Developers</strong>, you agree to be bound by these Terms and Conditions. If you do not agree, please do not use our services.</p>
+
+        <h3>2. Service Delivery</h3>
+        <ul>
+            <li>We commit to delivering a functional website within <strong>2 business days</strong> of project confirmation.</li>
+            <li>Clients must provide all necessary images, text, and logos. Delays in providing content will extend the delivery timeline.</li>
+        </ul>
+
+        <h3>3. Payment & Pricing</h3>
+        <p>All prices displayed on our website are final and inclusive of listed discounts. Payments must be made as per the instruction provided via email communication.</p>
+
+        <h3>4. Intellectual Property</h3>
+        <p>Once the full payment is received, the ownership of the website code developed for you is transferred to you. However, <strong>Darsh Web Developers</strong> reserves the right to display the project in our portfolio.</p>
+
+        <h3>5. User Conduct</h3>
+        <p>You agree not to use our services for any illegal activities, including hosting malware, phishing content, or infringing on the copyrights of others.</p>
+
+	<h3>6. Domain Using</h3>
+        <p>We don't use old domains.</p>
+        <p>Instead we use new domains which you like.</p>
+        <p>Note : We Only use Github Domains.</p>
+
+        <h1 style="margin-top: 60px;">Privacy Policy</h1>
+        
+        <h3>1. Information We Collect</h3>
+        <p>We only collect your <strong>Gmail Address</strong> and your <strong>Selected Service Plan</strong>. We do not track your location, browsing history, or personal identity beyond what is required for communication.</p>
+
+        <h3>2. How We Use Data</h3>
+        <p>Your email is used exclusively to contact you regarding your website project. We <strong>never</strong> sell or share your email address with third-party marketing companies.</p>
+
+        <h3>3. Security Measures</h3>
+        <p>We implement industry-standard security protocols to protect your data. However, as no method of transmission over the internet is 100% secure, we cannot guarantee absolute security.</p>
+
+        <h3>4. Cookies</h3>
+        <p>This website uses local storage to maintain your login session. No tracking cookies are used for advertising purposes.</p>
+
+        <button class="btn btn-outline" style="margin-top: 40px; font-size: 1.2rem; padding: 15px;" onclick="closePolicy()">I Have Read & Understood - Close</button>
+    </div>
+
+    <footer style="background:#5f8ff5;color:#fff;padding:40px 10px;text-align:center;">
+        <h2 style="margin-top:0;">Darsh Web Developers</h2>
+        <p>Bringing Your Digital Dreams to Life.</p>
+        <p style="margin:10px 0;">✉️ webdevelopersdarsh@gmail.com</p>
+        <div style="margin-top: 15px;">
+            <span style="cursor:pointer; text-decoration: underline; font-weight: bold;" onclick="showPolicy()">Terms of Service & Privacy Policy</span>
+        </div>
+        <p style="opacity:.6;margin-top:20px;">© 2026 All Rights Reserved</p>
+    </footer>
+
     <script>
         /* --- JAVASCRIPT LOGIC --- */
-
         const ADMIN_EMAIL = "koraleashok@gmail.com";
         const ADMIN_PASS = "Darsh@7827";
 
-        // DOM Elements
         const authSection = document.getElementById('auth-section');
         const loginForm = document.getElementById('login-form');
         const regForm = document.getElementById('register-form');
@@ -357,10 +443,10 @@
         const plansSection = document.getElementById('plans-section');
         const mainWebsite = document.getElementById('main-website');
         const adminDashboard = document.getElementById('admin-dashboard');
+        const policySection = document.getElementById('policy-section');
         
         let currentUserEmail = null;
 
-        // 1. Initial Load
         window.onload = function() {
             const savedUser = sessionStorage.getItem('dwd_current_user');
             if(savedUser) {
@@ -369,17 +455,12 @@
                     showAdminPanel();
                 } else {
                     const user = getUserData(currentUserEmail);
-                    // If user has a plan, show main website, otherwise show plans
-                    if(user.plan) {
-                        showMainWebsite(user.plan);
-                    } else {
-                        showPlans();
-                    }
+                    if(user.plan) showMainWebsite(user.plan);
+                    else showPlans();
                 }
             }
         };
 
-        // 2. Toggle Login/Register
         function toggleAuth(view) {
             if (view === 'register') {
                 loginForm.classList.add('hidden');
@@ -390,40 +471,28 @@
             }
         }
 
-        // 3. Register
         function handleRegister() {
             const email = document.getElementById('reg-email').value;
             const pass = document.getElementById('reg-pass').value;
+            const hasAgreed = document.getElementById('agree-check').checked;
 
-            if (!email.includes('@gmail.com')) {
-                alert("Please enter a valid Gmail address.");
-                return;
-            }
-            if (pass.length < 4) {
-                alert("Password is too short.");
-                return;
-            }
+            if (!email.includes('@gmail.com')) { alert("Please enter a valid Gmail address."); return; }
+            if (pass.length < 4) { alert("Password is too short."); return; }
+            if (!hasAgreed) { alert("You must agree to the Terms and Policy to join."); return; }
 
             let users = JSON.parse(localStorage.getItem('dwd_users')) || [];
-            if (users.find(u => u.email === email)) {
-                alert("Account already exists. Please Log In.");
-                toggleAuth('login');
-                return;
-            }
+            if (users.find(u => u.email === email)) { alert("Account exists. Please Log In."); toggleAuth('login'); return; }
 
             users.push({ email: email, password: pass, plan: null });
             localStorage.setItem('dwd_users', JSON.stringify(users));
-            
             alert("Account created! Please log in.");
             toggleAuth('login');
         }
 
-        // 4. Login
         function handleLogin() {
             const email = document.getElementById('login-email').value;
             const pass = document.getElementById('login-pass').value;
 
-            // Admin Check
             if (email === ADMIN_EMAIL && pass === ADMIN_PASS) {
                 sessionStorage.setItem('dwd_current_user', email);
                 currentUserEmail = email;
@@ -431,106 +500,99 @@
                 return;
             }
 
-            // Customer Check
             let users = JSON.parse(localStorage.getItem('dwd_users')) || [];
             const user = users.find(u => u.email === email && u.password === pass);
 
             if (user) {
                 sessionStorage.setItem('dwd_current_user', email);
                 currentUserEmail = email;
-                
-                if (user.plan) {
-                    showMainWebsite(user.plan);
-                } else {
-                    showPlans();
-                }
-            } else {
-                alert("Invalid email or password.");
-            }
+                if (user.plan) showMainWebsite(user.plan);
+                else showPlans();
+            } else { alert("Invalid email or password."); }
         }
 
-        // 5. Select Plan
         function selectPlan(planName) {
             let users = JSON.parse(localStorage.getItem('dwd_users')) || [];
             const index = users.findIndex(u => u.email === currentUserEmail);
-            
             if (index !== -1) {
                 users[index].plan = planName;
                 localStorage.setItem('dwd_users', JSON.stringify(users));
-                // Show success and move to dashboard
                 showMainWebsite(planName);
             }
         }
 
-        // 6. Go Back / Change Plan Function
         function changePlan() {
             mainWebsite.classList.add('hidden');
             plansSection.classList.remove('hidden');
-            document.body.style.justifyContent = 'flex-start';
         }
 
-        // 7. View: Admin Panel
         function showAdminPanel() {
-            authSection.classList.add('hidden');
-            plansSection.classList.add('hidden');
-            mainWebsite.classList.add('hidden');
+            hideEverything();
             header.classList.remove('hidden');
             adminDashboard.classList.remove('hidden');
-            
-            document.body.style.justifyContent = 'flex-start';
             document.getElementById('user-display').innerText = "Administrator";
-            
-            // Build Table
             const tbody = document.getElementById('customer-table-body');
             tbody.innerHTML = ''; 
-            
             let users = JSON.parse(localStorage.getItem('dwd_users')) || [];
             const customers = users.filter(u => u.email !== ADMIN_EMAIL);
-
             if(customers.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="2" style="text-align:center; padding: 20px;">No customers yet.</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="2" style="text-align:center;">No customers yet.</td></tr>';
             } else {
                 customers.forEach(user => {
-                    let row = `<tr>
-                        <td>${user.email}</td>
-                        <td style="color: var(--primary); font-weight: bold;">${user.plan ? user.plan : 'No Plan Selected'}</td>
-                    </tr>`;
-                    tbody.innerHTML += row;
+                    tbody.innerHTML += `<tr><td>${user.email}</td><td style="color:var(--primary);">${user.plan || 'No Plan'}</td></tr>`;
                 });
             }
         }
 
-        // 8. View: Plan Selection
         function showPlans() {
-            authSection.classList.add('hidden');
+            hideEverything();
             header.classList.remove('hidden');
             plansSection.classList.remove('hidden');
-            document.body.style.justifyContent = 'flex-start'; 
             document.getElementById('user-display').innerText = currentUserEmail;
         }
 
-        // 9. View: Main Website
         function showMainWebsite(planName) {
-            authSection.classList.add('hidden');
-            plansSection.classList.add('hidden');
+            hideEverything();
             header.classList.remove('hidden');
             mainWebsite.classList.remove('hidden');
-            document.body.style.justifyContent = 'flex-start'; 
             document.getElementById('user-display').innerText = currentUserEmail;
             document.getElementById('user-current-plan').innerText = planName;
         }
 
-        // 10. Logout
-        function logout() {
-            sessionStorage.removeItem('dwd_current_user');
-            location.reload();
+        function showPolicy() {
+            // Store current visibility state
+            authSection.classList.add('hidden');
+            plansSection.classList.add('hidden');
+            mainWebsite.classList.add('hidden');
+            adminDashboard.classList.add('hidden');
+            policySection.classList.remove('hidden');
+            window.scrollTo(0,0);
         }
 
+        function closePolicy() {
+            policySection.classList.add('hidden');
+            if (!currentUserEmail) authSection.classList.remove('hidden');
+            else if (currentUserEmail === ADMIN_EMAIL) showAdminPanel();
+            else {
+                const user = getUserData(currentUserEmail);
+                if (user.plan) showMainWebsite(user.plan);
+                else showPlans();
+            }
+        }
+
+        function hideEverything() {
+            authSection.classList.add('hidden');
+            plansSection.classList.add('hidden');
+            mainWebsite.classList.add('hidden');
+            adminDashboard.classList.add('hidden');
+            policySection.classList.add('hidden');
+        }
+
+        function logout() { sessionStorage.removeItem('dwd_current_user'); location.reload(); }
         function getUserData(email) {
             let users = JSON.parse(localStorage.getItem('dwd_users')) || [];
             return users.find(u => u.email === email) || {};
         }
-
     </script>
 </body>
 </html>
