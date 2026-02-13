@@ -9,6 +9,7 @@
         :root {
             --primary: #00e5ff; /* Cyan */
             --secondary: #2979ff; /* Blue */
+            --orange-main: #ff9100; /* Orange for Founder */
             --bg-dark: #0a0e17; /* Dark BG */
             --glass: rgba(255, 255, 255, 0.05);
             --text-color: #ffffff;
@@ -234,6 +235,40 @@
         .legal-content ul { padding-left: 20px; }
         .legal-content strong { color: var(--primary); }
 
+        /* --- NEW FOUNDER SECTION STYLING (Orange Theme) --- */
+        .founder-theme {
+            border-color: var(--orange-main) !important;
+            /* Faded Orange Background Effect */
+            background: linear-gradient(135deg, rgba(20, 20, 20, 0.95), rgba(40, 20, 10, 0.8));
+            box-shadow: 0 0 50px rgba(255, 145, 0, 0.2);
+        }
+        
+        .founder-theme h1, 
+        .founder-theme h2, 
+        .founder-theme h3, 
+        .founder-theme strong {
+            color: var(--orange-main) !important;
+            border-bottom-color: var(--orange-main) !important;
+        }
+
+        .founder-theme .btn-outline {
+            border-color: var(--orange-main);
+            color: var(--orange-main);
+        }
+        .founder-theme .btn-outline:hover {
+            background: rgba(255, 145, 0, 0.15);
+        }
+
+        .founder-link {
+            cursor: pointer; 
+            text-decoration: underline; 
+            font-weight: bold; 
+            color: var(--orange-main);
+            margin-left: 20px;
+            transition: 0.3s;
+        }
+        .founder-link:hover { text-shadow: 0 0 10px var(--orange-main); }
+
     </style>
 </head>
 <body>
@@ -256,6 +291,10 @@
             <input type="password" id="login-pass" placeholder="Password">
             <button class="btn" onclick="handleLogin()">Log In</button>
             <div class="switch-link" onclick="toggleAuth('register')">New here? Create Account</div>
+            
+            <div style="margin-top: 25px;">
+                <span class="founder-link" style="margin:0; font-size: 0.9rem;" onclick="showFounder()"></span>
+            </div>
         </div>
 
         <div id="register-form" class="auth-container hidden">
@@ -399,43 +438,20 @@
         <h3>5. User Conduct</h3>
         <p>You agree not to use our services for any illegal activities, including hosting malware, phishing content, or infringing on the copyrights of others.</p>
 
-	<h3>6. Domain Using</h3>
+	    <h3>6. Domain Using</h3>
         <p>We don't use old domains.</p>
         <p>Instead we use new domains which you like.</p>
         <p>Note : We Only use Github Domains.</p>
 
-<h3>7. Website Shutdown</h3>
-        <p>We may shut down or stop operating this website, either temporarily or permanently, at any time. This may happen for reasons such as:
-
-Our service plan or subscription has ended
-
-Maintenance or technical issues
-
-Security or safety concerns
-
-Business or operational decisions
-
-Legal or policy requirements
-
-If the website is shut down:
-
-The website and its services will no longer be available.
-
-Any data, content, or accounts on the website may be deleted.
-
-We are not responsible for any loss of data or access after the shutdown.
-
-We recommend that users keep their own backups of any important information.</p>
-
         <h1 style="margin-top: 60px;">Privacy Policy</h1>
         
         <h3>1. Information We Collect</h3>
-        <p>We only collect your <strong>Gmail Address</strong> and your <strong>Selected Service Plan</strong>. We do not track your location, browsing history, or personal identity beyond what is required for communication.</p>
-
-        <h3>2. How We Use Data</h3>
         <p>Your email is used exclusively to contact you regarding your website project. We <strong>never</strong> sell or share your email address with third-party marketing companies.</p>
 
-        <h3>3. Security Measures</h3>
+        <h3>2. How We Use Data</h3>
+        <p>We only collect your <strong>Gmail Address</strong> and your <strong>Selected Service Plan</strong>. We do not track your location, browsing history, or personal identity beyond what is required for communication.</p>
+
+        <h3>3. 3. Security Measures</h3>
         <p>We implement industry-standard security protocols to protect your data. However, as no method of transmission over the internet is 100% secure, we cannot guarantee absolute security.</p>
 
         <h3>4. Cookies</h3>
@@ -444,12 +460,38 @@ We recommend that users keep their own backups of any important information.</p>
         <button class="btn btn-outline" style="margin-top: 40px; font-size: 1.2rem; padding: 15px;" onclick="closePolicy()">I Have Read & Understood - Close</button>
     </div>
 
+    <div id="founder-section" class="hidden legal-content founder-theme">
+        <h1 style="border-bottom-color: var(--orange-main);">About the Founder</h1>
+        
+        <div style="margin-bottom:30px;">
+            <h2 style="margin:0; font-size: 2.2rem; color: var(--orange-main);">Darsh Korale</h2>
+            <p style="margin:0; opacity:0.8; font-size:1.2rem; color: #ffcc80;">Founder & Lead Developer</p>
+        </div>
+
+        <h3>The Vision</h3>
+        <p><strong>Darsh Korale</strong> is a 12-year-old entrepreneur and tech prodigy currently in the 6th grade. While most of his peers are consuming digital content, Darsh is busy creating it.</p>
+        
+        <p>As a specialist in web development, he identifies the critical flaws that hold businesses back—like slow load times and "trash" mobile layouts—and transforms them into high-performance digital assets. He combines the fresh perspective of the next generation with a deep technical understanding of modern web standards.</p>
+
+        <p>Darsh is on a mission to prove that age is no barrier to excellence. He provides business owners with the speed, creativity, and technical edge they need to compete in 2026.</p>
+
+        <h3>Why Work With Darsh?</h3>
+        <ul>
+            <li><strong>Speed:</strong> He builds sites optimized for 2026 standards.</li>
+            <li><strong>Innovation:</strong> A Alpha perspective on what actually looks good.</li>
+            <li><strong>Dedication:</strong> 100% focused on getting results for his clients.</li>
+        </ul>
+
+        <button class="btn btn-outline" style="margin-top: 40px; font-size: 1.2rem; padding: 15px;" onclick="closeFounder()">Back to Site</button>
+    </div>
     <footer style="background:#5f8ff5;color:#fff;padding:40px 10px;text-align:center;">
         <h2 style="margin-top:0;">Darsh Web Developers</h2>
         <p>Bringing Your Digital Dreams to Life.</p>
         <p style="margin:10px 0;">✉️ webdevelopersdarsh@gmail.com</p>
         <div style="margin-top: 15px;">
             <span style="cursor:pointer; text-decoration: underline; font-weight: bold;" onclick="showPolicy()">Terms of Service & Privacy Policy</span>
+            
+            <span class="founder-link" style="color: #ffd180;" onclick="showFounder()">About Founder</span>
         </div>
         <p style="opacity:.6;margin-top:20px;">© 2026 All Rights Reserved</p>
     </footer>
@@ -467,6 +509,7 @@ We recommend that users keep their own backups of any important information.</p>
         const mainWebsite = document.getElementById('main-website');
         const adminDashboard = document.getElementById('admin-dashboard');
         const policySection = document.getElementById('policy-section');
+        const founderSection = document.getElementById('founder-section'); // New Reference
         
         let currentUserEmail = null;
 
@@ -583,17 +626,29 @@ We recommend that users keep their own backups of any important information.</p>
         }
 
         function showPolicy() {
-            // Store current visibility state
-            authSection.classList.add('hidden');
-            plansSection.classList.add('hidden');
-            mainWebsite.classList.add('hidden');
-            adminDashboard.classList.add('hidden');
+            hideEverything(); // Now hides founder section too
             policySection.classList.remove('hidden');
             window.scrollTo(0,0);
         }
 
         function closePolicy() {
             policySection.classList.add('hidden');
+            restorePreviousView();
+        }
+
+        // --- NEW FUNCTIONS FOR FOUNDER SECTION ---
+        function showFounder() {
+            hideEverything();
+            founderSection.classList.remove('hidden');
+            window.scrollTo(0,0);
+        }
+
+        function closeFounder() {
+            founderSection.classList.add('hidden');
+            restorePreviousView();
+        }
+
+        function restorePreviousView() {
             if (!currentUserEmail) authSection.classList.remove('hidden');
             else if (currentUserEmail === ADMIN_EMAIL) showAdminPanel();
             else {
@@ -602,6 +657,7 @@ We recommend that users keep their own backups of any important information.</p>
                 else showPlans();
             }
         }
+        // ----------------------------------------
 
         function hideEverything() {
             authSection.classList.add('hidden');
@@ -609,6 +665,7 @@ We recommend that users keep their own backups of any important information.</p>
             mainWebsite.classList.add('hidden');
             adminDashboard.classList.add('hidden');
             policySection.classList.add('hidden');
+            founderSection.classList.add('hidden'); // Added to hide list
         }
 
         function logout() { sessionStorage.removeItem('dwd_current_user'); location.reload(); }
