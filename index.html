@@ -5,6 +5,54 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Darsh Web Developers</title>
     <style>
+        /* --- OFFERS STYLING --- */
+        .offer-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--orange-main);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            z-index: 1000;
+            box-shadow: 0 5px 15px rgba(255, 145, 0, 0.4);
+            border: none;
+        }
+
+        /* Initial Slide Up Animation */
+        @keyframes floatUp {
+            0% { transform: translateY(50px); opacity: 0; }
+            100% { transform: translateY(0); opacity: 1; }
+        }
+
+        /* Continuous Floating (Bobbing) Animation */
+        @keyframes bobbing {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+
+        .offer-popup {
+            position: fixed;
+            bottom: 80px;
+            right: 20px;
+            width: 300px;
+            background: #1a1a1a;
+            border: 2px solid var(--orange-main);
+            padding: 20px;
+            border-radius: 15px;
+            z-index: 1000;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            
+            /* Combined Animations: floatUp happens once, bobbing happens forever */
+            animation: floatUp 0.4s ease-out, bobbing 3s ease-in-out infinite;
+        }
+
+        .offer-popup h3 { color: var(--orange-main); margin-top: 0; }
+        .offer-popup p { font-size: 0.9rem; line-height: 1.4; }
+
         /* --- CSS STYLING (The Look) --- */
         :root {
             --primary: #00e5ff; /* Cyan */
@@ -336,7 +384,7 @@
 
             <div class="plan-card">
                 <div class="plan-title">Basic</div>
-                <div class="plan-price">₹5,999</div>
+                <div class="plan-price">₹5,099</div>
                 <ul class="plan-features">
                     <li>SSL Certificate ✅</li>
                     <li>3 Months Hosting ✅</li>
@@ -348,12 +396,12 @@
                     <li>Website in 2 days ✅</li>
                     <li>Customer Support ✅</li>
                 </ul>
-                <button class="btn" onclick="selectPlan('Basic (₹5,999)')">Select Basic</button>
+                <button class="btn" onclick="selectPlan('Basic (₹5,099)')">Select Basic</button>
             </div>
 
             <div class="plan-card" style="border-color: var(--secondary);">
                 <div class="plan-title">Advanced</div>
-                <div class="plan-price">₹9,999</div>
+                <div class="plan-price">₹8,499</div>
                 <ul class="plan-features">
                     <li>SSL Certificate ✅</li>
                     <li>6 Month Hosting ✅</li>
@@ -365,12 +413,12 @@
                     <li>Website in 2 days ✅</li>
                     <li>Customer Support ✅</li>
                 </ul>
-                <button class="btn" onclick="selectPlan('Advanced (₹9,999)')">Select Advanced</button>
+                <button class="btn" onclick="selectPlan('Advanced (₹8,499)')">Select Advanced</button>
             </div>
 
             <div class="plan-card" style="box-shadow: 0 0 10px rgba(0, 229, 255, 0.3);">
                 <div class="plan-title" style="text-shadow: 0 0 10px var(--primary);">Ultra</div>
-                <div class="plan-price">₹14,999</div>
+                <div class="plan-price">₹11,999</div>
                 <ul class="plan-features">
                     <li>SSL Certificate ✅</li>
                     <li>1 Year Hosting ✅</li>
@@ -382,7 +430,7 @@
                     <li>Website in 2 days ✅</li>
                     <li>Customer Support ✅</li>
                 </ul>
-                <button class="btn" onclick="selectPlan('Ultra (₹14,999)')">Select Ultra</button>
+                <button class="btn" onclick="selectPlan('Ultra (₹11,999)')">Select Ultra</button>
             </div>
 
         </div>
@@ -484,17 +532,40 @@
 
         <button class="btn btn-outline" style="margin-top: 40px; font-size: 1.2rem; padding: 15px;" onclick="closeFounder()">Back to Site</button>
     </div>
+
+    <div id="offer-section" class="hidden legal-content founder-theme">
+        <h1 style="border-bottom-color: var(--orange-main);">There are no offers Right Now.</h1>
+        <button class="btn btn-outline" style="margin-top: 40px; font-size: 1.2rem; padding: 15px;" onclick="closeoffer()">Back</button>
+    </div>
+
     <footer style="background:#5f8ff5;color:#fff;padding:40px 10px;text-align:center;">
         <h2 style="margin-top:0;">Darsh Web Developers</h2>
         <p>Bringing Your Digital Dreams to Life.</p>
         <p style="margin:10px 0;">✉️ webdevelopersdarsh@gmail.com</p>
         <div style="margin-top: 15px;">
             <span style="cursor:pointer; text-decoration: underline; font-weight: bold;" onclick="showPolicy()">Terms of Service & Privacy Policy</span>
+
+            <span style="cursor:pointer; text-decoration: underline; font-weight: bold; margin-left: 20px;" onclick="showoffer()"></span>
             
             <span class="founder-link" style="color: #ffd180;" onclick="showFounder()">About Founder</span>
         </div>
+        
         <p style="opacity:.6;margin-top:20px;">© 2026 All Rights Reserved</p>
     </footer>
+
+    <button class="offer-btn" onclick="toggleOffer()">🔥 The Velocity Offers</button>
+
+    <div id="offer-popup" class="offer-popup hidden">
+        <h3>Limited Time Offers!</h3>
+        <div id="offer-list">
+            <p>⭐ <strong>The Special:</strong> 15% off on Basic and Advanced</p>
+            <p>💎 <strong>The Founder's Favourite:</strong> 20% off on Ultra Plan!</p>                                                                                                  	<li>Information:</li>
+        <li>The Original Basic price is ₹5,999 the offer was applied then the price turned to ₹5,099</li>
+  	<li>The Original Advanced price is ₹9,999 the offer was applied then the price turned to ₹8,499</li>
+  	<li>The Original Ultra price is ₹14,999 the offer was applied then the price turned to ₹11,999</li>
+        </div>
+        <button class="btn btn-outline" onclick="toggleOffer()">Close</button>
+    </div>
 
     <script>
         /* --- JAVASCRIPT LOGIC --- */
@@ -509,7 +580,8 @@
         const mainWebsite = document.getElementById('main-website');
         const adminDashboard = document.getElementById('admin-dashboard');
         const policySection = document.getElementById('policy-section');
-        const founderSection = document.getElementById('founder-section'); // New Reference
+        const founderSection = document.getElementById('founder-section'); 
+        const offerSection = document.getElementById('offer-section'); // New Reference
         
         let currentUserEmail = null;
 
@@ -526,6 +598,11 @@
                 }
             }
         };
+
+        function toggleOffer() {
+            const popup = document.getElementById('offer-popup');
+            popup.classList.toggle('hidden');
+        }
 
         function toggleAuth(view) {
             if (view === 'register') {
@@ -626,7 +703,7 @@
         }
 
         function showPolicy() {
-            hideEverything(); // Now hides founder section too
+            hideEverything(); 
             policySection.classList.remove('hidden');
             window.scrollTo(0,0);
         }
@@ -636,7 +713,6 @@
             restorePreviousView();
         }
 
-        // --- NEW FUNCTIONS FOR FOUNDER SECTION ---
         function showFounder() {
             hideEverything();
             founderSection.classList.remove('hidden');
@@ -648,6 +724,19 @@
             restorePreviousView();
         }
 
+        // --- NEW FUNCTIONS FOR OFFERS ---
+        function showoffer() {
+            hideEverything();
+            offerSection.classList.remove('hidden');
+            window.scrollTo(0,0);
+        }
+
+        function closeoffer() {
+            offerSection.classList.add('hidden');
+            restorePreviousView();
+        }
+        // --------------------------------
+
         function restorePreviousView() {
             if (!currentUserEmail) authSection.classList.remove('hidden');
             else if (currentUserEmail === ADMIN_EMAIL) showAdminPanel();
@@ -657,7 +746,6 @@
                 else showPlans();
             }
         }
-        // ----------------------------------------
 
         function hideEverything() {
             authSection.classList.add('hidden');
@@ -665,7 +753,9 @@
             mainWebsite.classList.add('hidden');
             adminDashboard.classList.add('hidden');
             policySection.classList.add('hidden');
-            founderSection.classList.add('hidden'); // Added to hide list
+            founderSection.classList.add('hidden');
+            offerSection.classList.add('hidden'); // Fixed: now hides offer page
+            document.getElementById('offer-popup').classList.add('hidden'); // Fixed: now hides popup
         }
 
         function logout() { sessionStorage.removeItem('dwd_current_user'); location.reload(); }
@@ -675,4 +765,4 @@
         }
     </script>
 </body>
-</html>	
+</html>
