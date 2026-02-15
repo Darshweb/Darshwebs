@@ -125,11 +125,13 @@
         .brand-name {
             font-size: 1.5rem;
             font-weight: 800;
-            background: -webkit-linear-gradient(0deg, var(--primary), var(--secondary));
+            background: linear-gradient(to right, var(--primary), var(--secondary));
             -webkit-background-clip: text;
+            background-clip: text;
             -webkit-text-fill-color: transparent;
             text-transform: uppercase;
             letter-spacing: 1px;
+            color: var(--primary);
         }
 
         .nav-right { margin-left: auto; }
@@ -316,6 +318,67 @@
             transition: 0.3s;
         }
         .founder-link:hover { text-shadow: 0 0 10px var(--orange-main); }
+
+        /* --- AI CHATBOT STYLING --- */
+        #chat-widget {
+            position: fixed;
+            bottom: 70px;
+            left: 10px;
+            width: 300px;
+            z-index: 1000;
+            font-family: Arial, sans-serif;
+        }
+        #chat-header {
+            background: var(--secondary);
+            color: white;
+            padding: 12px;
+            border-radius: 10px 10px 0 0;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            font-weight: bold;
+        }
+        #chat-body {
+            background: var(--bg-dark);
+            border: 1px solid var(--secondary);
+            border-top: none;
+            height: 350px;
+            display: flex;
+            flex-direction: column;
+            border-radius: 0 0 10px 10px;
+        }
+        #chat-content {
+            flex-grow: 1;
+            padding: 10px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .msg { padding: 8px 12px; border-radius: 8px; font-size: 14px; max-width: 80%; }
+        .bot-msg { background: rgba(239, 173, 0, 0); color: var(--primary); align-self: flex-start; border-left: 3px solid var(--primary); }
+        .user-msg { background: rgba(255, 173, 0, 0); color: var(--orange-main); align-self: flex-end; text-align: right; }
+        #chat-input-box {
+            display: flex;
+            border-top: 1px solid #f0ae43;
+            padding: 5px;
+        }
+        #chat-input-box input {
+            flex-grow: 1;
+            background: transparent;
+            border: none;
+            color: white;
+            padding: 8px;
+            outline: none;
+        }
+        #chat-input-box button {
+            background: var(--primary);
+            border: none;
+            padding: 5px 15px;
+            cursor: pointer;
+            border-radius: 5px;
+            color: blue;
+        }
 
     </style>
 </head>
@@ -581,7 +644,7 @@
         const adminDashboard = document.getElementById('admin-dashboard');
         const policySection = document.getElementById('policy-section');
         const founderSection = document.getElementById('founder-section'); 
-        const offerSection = document.getElementById('offer-section'); // New Reference
+        const offerSection = document.getElementById('offer-section'); 
         
         let currentUserEmail = null;
 
@@ -724,7 +787,6 @@
             restorePreviousView();
         }
 
-        // --- NEW FUNCTIONS FOR OFFERS ---
         function showoffer() {
             hideEverything();
             offerSection.classList.remove('hidden');
@@ -735,7 +797,6 @@
             offerSection.classList.add('hidden');
             restorePreviousView();
         }
-        // --------------------------------
 
         function restorePreviousView() {
             if (!currentUserEmail) authSection.classList.remove('hidden');
@@ -754,15 +815,77 @@
             adminDashboard.classList.add('hidden');
             policySection.classList.add('hidden');
             founderSection.classList.add('hidden');
-            offerSection.classList.add('hidden'); // Fixed: now hides offer page
-            document.getElementById('offer-popup').classList.add('hidden'); // Fixed: now hides popup
+            offerSection.classList.add('hidden');
+            document.getElementById('offer-popup').classList.add('hidden'); 
         }
 
         function logout() { sessionStorage.removeItem('dwd_current_user'); location.reload(); }
+        
         function getUserData(email) {
             let users = JSON.parse(localStorage.getItem('dwd_users')) || [];
             return users.find(u => u.email === email) || {};
         }
+
+        // --- SMART AI CHATBOT LOGIC ---
+        function toggleChat() {
+            const body = document.getElementById('chat-body');
+            const arrow = document.getElementById('chat-arrow');
+            body.classList.toggle('hidden');
+            arrow.innerText = body.classList.contains('hidden') ? '▲' : '▼';
+        }
+
+        const aiKnowledge = [
+            { keys: ['hi', 'hello', 'hey', 'start', 'greet'], response: "Greetings! I am the official DWD (Darsh Web Developers) AI. How can I help you build your digital future today?" },
+            { keys: ['price', 'cost', 'money', 'rupees', 'how much', 'cheap', 'pay'], response: "Our plans are: Free Trial (₹0), Basic (₹5,099), Advanced (₹8,499), and Ultra (₹11,999)." },
+            { keys: ['recommend', 'best plan', 'suggest', 'which one', 'help me choose'], response: "If you are a beginner, start with the **Basic Plan**. For serious businesses, the **Ultra Plan** offers the best 1-year value." },
+            { keys: ['founder', 'darsh', 'korale', 'ceo', 'who made', 'boss'], response: "Darsh Korale is a Founder and CEO of Darsh Web Developers you can get more information by clicking on About Founder." },
+            { keys: ['time', 'days', 'fast', 'how long', 'delivery'], response: "We deliver the website in two Buisness Days but according to terms " },
+            { keys: ['domain', 'url', 'github', 'link', 'name'], response: "We use high-performance GitHub domains for all packages to ensure zero downtime and high security." },
+            { keys: ['secure', 'safe', 'ssl', 'hack', 'lock'], response: "Every plan includes a free SSL Certificate to keep your customer data encrypted and safe." }
+        ];
+
+        function sendChat() {
+            const input = document.getElementById('user-query');
+            const container = document.getElementById('chat-content');
+            const query = input.value.toLowerCase().trim();
+            if (!query) return;
+
+            // Add User Message
+            container.innerHTML += `<div class="msg user-msg">${input.value}</div>`;
+            input.value = '';
+
+            // AI "Smart" Matching
+            let botResponse = "I apologize i can't answer.";
+            
+            for (let item of aiKnowledge) {
+                if (item.keys.some(key => query.includes(key))) {
+                    botResponse = item.response;
+                    break;
+                }
+            }
+
+            // Simulated Thinking Delay
+            setTimeout(() => {
+                container.innerHTML += `<div class="msg bot-msg">${botResponse}</div>`;
+                container.scrollTop = container.scrollHeight;
+            }, 600);
+        }
     </script>
+    
+    <div id="chat-widget">
+        <div id="chat-header" onclick="toggleChat()">
+            <span>🤖 Darsh AI</span>
+            <span id="chat-arrow">▲</span>
+        </div>
+        <div id="chat-body" class="hidden">
+            <div id="chat-content">
+                <div class="msg bot-msg">Hello! I'm Darsh AI.</div>
+            </div>
+            <div id="chat-input-box">
+                <input type="text" id="user-query" placeholder="Ask me anything..." onkeypress="if(event.key==='Enter') sendChat()">
+                <button onclick="sendChat()">➤</button>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
