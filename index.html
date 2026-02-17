@@ -329,7 +329,7 @@
             font-family: Arial, sans-serif;
         }
         #chat-header {
-            background: var(--secondary);
+            background: #3fe0e8;
             color: white;
             padding: 12px;
             border-radius: 10px 10px 0 0;
@@ -339,7 +339,7 @@
             font-weight: bold;
         }
         #chat-body {
-            background: var(--bg-dark);
+            background: #353538;
             border: 1px solid var(--secondary);
             border-top: none;
             height: 350px;
@@ -377,7 +377,7 @@
             padding: 5px 15px;
             cursor: pointer;
             border-radius: 5px;
-            color: blue;
+            color: rgb(0, 0, 0);
         }
 
     </style>
@@ -837,11 +837,16 @@
         const aiKnowledge = [
             { keys: ['hi', 'hello', 'hey', 'start', 'greet'], response: "Greetings! I am the official DWD (Darsh Web Developers) AI. How can I help you build your digital future today?" },
             { keys: ['price', 'cost', 'money', 'rupees', 'how much', 'cheap', 'pay'], response: "Our plans are: Free Trial (₹0), Basic (₹5,099), Advanced (₹8,499), and Ultra (₹11,999)." },
-            { keys: ['recommend', 'best plan', 'suggest', 'which one', 'help me choose'], response: "If you are a beginner, start with the **Basic Plan**. For serious businesses, the **Ultra Plan** offers the best 1-year value." },
+            { keys: ['recommend', 'best plan', 'suggest', 'which one', 'help me choose'], response: "If you are a beginner, start with the Basic Plan. For serious businesses, the Ultra Plan offers the best 1-year value." },
             { keys: ['founder', 'darsh', 'korale', 'ceo', 'who made', 'boss'], response: "Darsh Korale is a Founder and CEO of Darsh Web Developers you can get more information by clicking on About Founder." },
             { keys: ['time', 'days', 'fast', 'how long', 'delivery'], response: "We deliver the website in two Buisness Days but according to terms " },
+            { keys: ['ultra','ultra plan'], response: "The Ultra Plan is best plan. This Plan contains SSL Certificate,1 Year Hosting,Github Domain,Functional,Maintenance,Free Bug Fixes,Updates,Website in 2 Days, and Customer Support." },
+             { keys: ['free', 'free trial','free plan'], response: "The Free Trial Plan is the demo for new customers who want to see their website and make an decision according to website. This Plan contains SSL Certificate,5 days Hosting,Github Domain,Functional,Website in 2 Days." },
+              { keys: ['advanced', 'advance','advanced plan','advance plan'], response: "The Advanced Plan. This Plan contains SSL Certificate,6 months Hosting,Github Domain,Functional,Maintenance,Free Bug Fixes,Updates,Website in 2 Days, and Customer Support." },
+               { keys: ['basic', 'basic plan'], response: "The Ultra Plan is best plan. This Plan contains SSL Certificate,3 months Hosting,Github Domain,Functional,Maintenance,Free Bug Fixes,Updates,Website in 2 Days, and Customer Support." },
             { keys: ['domain', 'url', 'github', 'link', 'name'], response: "We use high-performance GitHub domains for all packages to ensure zero downtime and high security." },
-            { keys: ['secure', 'safe', 'ssl', 'hack', 'lock'], response: "Every plan includes a free SSL Certificate to keep your customer data encrypted and safe." }
+            { keys: ['secure', 'safe', 'ssl', 'hack', 'lock'], response: "Every plan includes a SSL Certificate to keep your customer data encrypted and safe." }
+
         ];
 
         function sendChat() {
