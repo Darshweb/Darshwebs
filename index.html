@@ -380,6 +380,73 @@
             color: rgb(0, 0, 0);
         }
 
+        /* ====== CAPTCHA NOTICE MODAL STYLES (APPENDED) ====== */
+        #dwd-captcha-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000; /* higher than other elements */
+            padding: 20px;
+        }
+        #dwd-captcha-modal {
+            width: 420px;
+            max-width: calc(100% - 40px);
+            background: linear-gradient(180deg, #0f1724 0%, #121827 100%);
+            border: 1px solid rgba(255,255,255,0.06);
+            padding: 22px;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+            color: #e6eef8;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        #dwd-captcha-modal h2 {
+            margin: 0 0 8px 0;
+            font-size: 1.25rem;
+            color: var(--orange-main);
+        }
+        #dwd-captcha-modal p {
+            margin: 8px 0 16px 0;
+            color: #cbd5e1;
+            font-size: 0.95rem;
+            line-height: 1.45;
+        }
+        #dwd-captcha-actions {
+            display:flex;
+            gap:10px;
+            justify-content: flex-end;
+            margin-top: 8px;
+        }
+        .dwd-btn {
+            padding: 8px 12px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            font-weight: 700;
+        }
+        .dwd-btn.primary {
+            background: linear-gradient(90deg, var(--secondary), var(--primary));
+            color: #001;
+        }
+        .dwd-btn.ghost {
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.08);
+            color: #d1d5db;
+        }
+        .dwd-link {
+            display:block;
+            margin-top:10px;
+            font-size:0.85rem;
+            color:#9fb4ff;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+        @media (max-width:480px) {
+            #dwd-captcha-modal { padding: 18px; }
+            .dwd-btn { padding: 9px 10px; }
+        }
     </style>
 </head>
 <body>
@@ -892,5 +959,105 @@
             </div>
         </div>
     </div>
+
+    <!-- ====== CAPTCHA NOTICE MODAL (ADDED) ====== -->
+    <div id="dwd-captcha-overlay" class="hidden" role="dialog" aria-modal="true" aria-labelledby="dwd-captcha-title">
+        <div id="dwd-captcha-modal" role="document">
+            <h2 id="dwd-captcha-title">Notice — CAPTCHA Coming Soon</h2>
+            <p>
+                We're planning to add a CAPTCHA feature in the next update to improve site security and reduce bots.
+                This is just an informational warning — no CAPTCHA has been added yet and no changes were made to your account or data.
+            </p>
+            <p style="font-weight:700; color:#ffd9a8;">
+                Warning: after the update you may be required to complete a CAPTCHA during login or when submitting forms.
+            </p>
+
+            <div id="dwd-captcha-actions">
+                <button id="dwd-captcha-dontshow" class="dwd-btn ghost" title="Don't show this message again">Don't show again</button>
+                <button id="dwd-captcha-ok" class="dwd-btn primary">OK</button>
+            </div>
+
+            <span class="dwd-link" id="dwd-captcha-more">Why CAPTCHA?</span>
+        </div>
+    </div>
+
+    <script>
+        /* ====== CAPTCHA NOTICE SCRIPT (non-invasive) ======
+           - Uses DOMContentLoaded listener so it won't overwrite existing window.onload
+           - Respects localStorage flag "dwd_captcha_popup_dismissed_v1"
+           - Buttons:
+             * OK: close for this session (overlay hidden)
+             * Don't show again: stores dismissal in localStorage permanently
+           - Escape key closes overlay (but does not set the persistent flag)
+        ================================================== */
+
+        (function(){
+            const OVERLAY_ID = 'dwd-captcha-overlay';
+            const OK_ID = 'dwd-captcha-ok';
+            const DONTSHOW_ID = 'dwd-captcha-dontshow';
+            const MORE_ID = 'dwd-captcha-more';
+            const STORAGE_KEY = 'dwd_captcha_popup_dismissed_v1';
+
+            // Show overlay if not dismissed
+            document.addEventListener('DOMContentLoaded', function() {
+                try {
+                    // If user or admin views are in progress, still show the modal as it's informational.
+                    const dismissed = localStorage.getItem(STORAGE_KEY);
+                    if (!dismissed) {
+                        const overlay = document.getElementById(OVERLAY_ID);
+                        if (overlay) overlay.classList.remove('hidden');
+                    }
+                } catch (e) {
+                    // localStorage may be disabled; silently fail (do not block site)
+                    console.warn('Captcha notice: localStorage unavailable.', e);
+                    const overlay = document.getElementById(OVERLAY_ID);
+                    if (overlay) overlay.classList.remove('hidden');
+                }
+            });
+
+            // OK: hide overlay for this session (no persistent flag)
+            document.addEventListener('click', function(e){
+                const target = e.target;
+                if (target && target.id === OK_ID) {
+                    const overlay = document.getElementById(OVERLAY_ID);
+                    if (overlay) overlay.classList.add('hidden');
+                }
+            });
+
+            // Don't show again: persist the dismissal
+            document.addEventListener('click', function(e){
+                const target = e.target;
+                if (target && target.id === DONTSHOW_ID) {
+                    try {
+                        localStorage.setItem(STORAGE_KEY, '1');
+                    } catch (err) {
+                        console.warn('Could not save captcha dismissal to localStorage.', err);
+                    }
+                    const overlay = document.getElementById(OVERLAY_ID);
+                    if (overlay) overlay.classList.add('hidden');
+                }
+            });
+
+            // "Why CAPTCHA?" link shows a small friendly alert (non-blocking)
+            document.addEventListener('click', function(e){
+                const target = e.target;
+                if (target && target.id === MORE_ID) {
+                    e.preventDefault();
+                    alert("CAPTCHA helps prevent automated bot signups and spam. It's a small extra step for better security and reliability.");
+                }
+            });
+
+            // Close on Escape (does not persist)
+            document.addEventListener('keydown', function(e){
+                if (e.key === 'Escape') {
+                    const overlay = document.getElementById(OVERLAY_ID);
+                    if (overlay && !overlay.classList.contains('hidden')) overlay.classList.add('hidden');
+                }
+            });
+
+            // If developer/admin opens admin panel or other flows, overlay will stay hidden behind panels if they call hideEverything().
+            // This script is intentionally lightweight and non-invasive.
+        })();
+    </script>
 </body>
 </html>
